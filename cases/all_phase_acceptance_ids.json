@@ -1,0 +1,16 @@
+{
+  "source": "09_ACCEPTANCE_TEST_MATRIX.md",
+  "policy": "Frozen target IDs. Executable implementations are added phase-by-phase without weakening existing cases.",
+  "groups": {
+    "product_authority": ["AUTH-001","AUTH-002","AUTH-003","AUTH-004","AUTH-005","AUTH-006","AUTH-007"],
+    "hash_staleness": ["HASH-001","HASH-002","HASH-003","HASH-004","HASH-005","HASH-006"],
+    "assets": ["AST-001","AST-002","AST-003","AST-004","AST-005","AST-006","AST-007","AST-008"],
+    "analysis_context": ["ANA-001","ANA-002","ANA-003","ANA-004","ANA-005","ANA-006","ANA-007","ANA-008","ANA-009","ANA-010"],
+    "creative": ["CR-001","CR-002","CR-003","CR-004","CR-005","CR-006","CR-007","CR-008","CR-009"],
+    "voice_alignment": ["VO-001","VO-002","VO-003","VO-004","VO-005","VO-006","VO-007","VO-008"],
+    "async_paid": ["ASY-001","ASY-002","ASY-003","ASY-004"],
+    "render_qa": ["REN-001","REN-002","REN-003","REN-004","REN-005","REN-006","REN-007","REN-008"],
+    "security": ["SEC-001","SEC-002","SEC-003","SEC-004","SEC-005"],
+    "harness_integrity": ["HAR-001","HAR-002","HAR-003","HAR-004"]
+  }
+}
