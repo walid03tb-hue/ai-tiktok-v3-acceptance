@@ -1,0 +1,16 @@
+{
+  "suite": "phase1_product_authority",
+  "status": "FROZEN_CASE_DEFINITIONS",
+  "cases": [
+    {"id":"P1-001","name":"same-name-products-isolated","expected":"distinct server IDs and isolated facts"},
+    {"id":"P1-002","name":"client-id-cannot-override","expected":"server-generated Product ID remains authoritative"},
+    {"id":"P1-003","name":"user-verified-spoof-blocked","expected":"normal client payload cannot create USER_VERIFIED"},
+    {"id":"P1-004","name":"isVerified-spoof-blocked","expected":"nested pricing/review/fulfillment isVerified cannot create authority"},
+    {"id":"P1-005","name":"verify-exact-value-only","expected":"VerifyFact binds exact current canonical value"},
+    {"id":"P1-006","name":"verified-value-change-invalidates","expected":"old verification cannot transfer to new value"},
+    {"id":"P1-007","name":"product-revision-cas","expected":"concurrent same-base writes: one success, one PRODUCT_REVISION_CONFLICT"},
+    {"id":"P1-008","name":"no-invented-facts","expected":"name-only Product does not invent shipping/COD/quality/performance/pricing/claims"},
+    {"id":"P1-009","name":"cross-workspace-blocked","expected":"cross-workspace Product read/write denied"},
+    {"id":"P1-010","name":"restart-durability","expected":"Product/revision truth survives process restart"}
+  ]
+}
