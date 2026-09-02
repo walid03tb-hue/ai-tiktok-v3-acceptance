@@ -1,0 +1,3465 @@
+# ============================================================
+# AI TIKTOK CREATIVE FACTORY V3
+# FINAL MASTER CONSTITUTION + FIRST BUILD EXECUTION
+# Saudi E-commerce / TikTok Ads
+# ============================================================
+
+You are building the FINAL ARCHITECTURAL VERSION of:
+
+AI TIKTOK CREATIVE FACTORY V3
+
+Primary market:
+Saudi Arabia.
+
+Primary use:
+Generate, validate, produce, render, QA, and export high-quality
+TikTok advertising creatives for Saudi e-commerce products.
+
+THIS IS A CLEAN BUILD.
+
+Do NOT patch V1.
+Do NOT patch V2.
+Do NOT copy their architecture blindly.
+
+Lessons from previous versions are already encoded in this specification.
+
+THIS SPECIFICATION IS THE SOURCE OF TRUTH.
+
+Do not invent alternative architecture unless a requirement is technically impossible.
+If something is impossible, STOP and report the exact blocker instead of silently changing the contract.
+
+============================================================
+A. FINAL PRODUCT GOAL
+============================================================
+
+The final production workflow is:
+
+PRODUCT TRUTH
+→ VERIFIED ASSETS
+→ ASSET INTELLIGENCE
+→ PRODUCT INTELLIGENCE
+→ USER REVIEW / VERIFICATION
+→ PRODUCT REVISION
+→ CREATIVE STRATEGY
+→ 6 DISTINCT EVIDENCE-SAFE CREATIVES
+→ AI TEXT HOOKS
+→ SEMANTIC PRODUCT CONSISTENCY
+→ CLAIM GROUNDING
+→ REAL TTS
+→ REAL SPEECH ALIGNMENT
+→ MASTER TIMELINE
+→ VISUAL SCENE DIRECTOR
+→ AUTHORITATIVE ASSET BINDING
+→ SELECTIVE AI VISUALS / VEO
+→ CREATIVE COHERENCE
+→ CANONICAL RENDER GATE
+→ REAL FFMPEG
+→ SERVER QA
+→ RENDER QUEUE
+→ PRODUCTION DOWNLOAD
+→ ZIP / CREATIVE PACK EXPORT
+→ ANALYTICS / WINNER ITERATION
+
+The application should feel like:
+
+CREATIVE CONTROL ROOM
+
+not a generic dashboard.
+
+============================================================
+B. NON-NEGOTIABLE ENGINEERING LAW
+============================================================
+
+AI PROPOSES.
+DETERMINISTIC CODE DISPOSES.
+
+AI is allowed to:
+
+- understand product semantics
+- analyze media
+- propose Product Intelligence
+- propose features/benefits/audiences
+- propose creative strategies
+- generate hooks
+- generate scripts
+- generate CTA copy
+- classify semantic similarity
+- extract candidate claims
+- propose scene ideas
+- generate selective visual concepts
+- generate TTS
+- perform real speech alignment through approved provider
+- produce creative/coherence suggestions
+
+AI is NEVER authoritative for:
+
+- product identity
+- workspace ownership
+- asset ownership
+- ProductRevision truth
+- provenance truth
+- USER_VERIFIED state
+- claim eligibility
+- file existence
+- file integrity
+- media validation
+- asset role eligibility
+- revision numbers
+- concurrency
+- stale-state detection
+- render eligibility
+- RenderJob completion
+- QA approval
+- production download authority
+
+The SERVER is authoritative.
+
+The FRONTEND requests actions.
+
+The frontend NEVER owns canonical truth.
+
+============================================================
+C. FAIL-CLOSED CONSTITUTION
+============================================================
+
+The following behavior is FORBIDDEN:
+
+- prod_unassigned
+- product identity derived from product name
+- product identity derived from slug
+- product identity derived from SKU
+- client-selected productId overriding server context
+- client-selected workspaceId overriding authenticated workspace
+- invented Product Facts
+- invented shipping facts
+- invented COD facts
+- invented pricing
+- invented discounts
+- invented quality claims
+- automatic USER_VERIFIED
+- stale provenance attached to a changed value
+- deleted claims silently returning
+- AI self-authorizing its own claims
+- fake media READY
+- metadata-only media pretending to be multimodal analysis
+- asset role alone proving a before/after transformation
+- filename alone proving product evidence
+- fake speech alignment
+- proportional word interpolation
+- phonetic timing interpolation
+- synthetic timing masquerading as ASR
+- random WAV fallback
+- default WAV fallback when intended voice is missing
+- arbitrary media fallback
+- production AI silently falling back to mocks
+- missing external provider silently producing deterministic fake success
+- stale asynchronous completion overwriting newer work
+- last-write-wins CreativePack writes
+- unversioned aggregate replacement
+- client setting APPROVED
+- client setting READY
+- client setting canonical QA outcome directly
+- default QA outcome other than NOT_REVIEWED
+- placeholder RenderJob COMPLETED
+- fake FFmpeg success
+- paid Veo duplicate generation
+- lost paid Veo operation after restart
+- production render authorized by client-supplied facts/assets/timeline
+- QA approval from render A authorizing render B
+- tests writing into development/production state
+
+Every failure must have an explicit deterministic application error.
+
+============================================================
+D. TARGET STACK
+============================================================
+
+Use a TypeScript monorepo.
+
+Required runtime:
+
+Node.js 22+
+TypeScript strict mode.
+
+Recommended structure:
+
+/apps/web
+/apps/api
+/apps/worker
+
+/packages/domain
+/packages/contracts
+/packages/database
+/packages/providers
+/packages/media
+/packages/testing
+/packages/config
+
+Frontend:
+
+React
+TypeScript
+Vite
+RTL-ready
+
+API:
+
+Fastify or similarly lightweight typed Node HTTP server.
+
+Prefer Fastify unless there is a strong technical blocker.
+
+Runtime API validation:
+
+Zod or equivalent runtime schema validator.
+
+Database:
+
+PostgreSQL-compatible schema.
+
+Use:
+Drizzle ORM + SQL migrations
+or another lightweight strongly typed migration layer.
+
+Production:
+Google Cloud SQL PostgreSQL.
+
+Automated tests:
+use isolated ephemeral PostgreSQL-compatible DB,
+prefer PGlite if Docker/Postgres is unavailable in the coding environment.
+
+The SAME schema and migrations must be exercised.
+
+Do NOT maintain separate incompatible DB schemas for test and production.
+
+Physical media:
+
+Development/test:
+isolated filesystem media adapter.
+
+Production:
+Google Cloud Storage.
+
+Use one StorageProvider interface.
+
+Cloud target:
+
+Google Cloud.
+
+Recommended production architecture:
+
+Web frontend
+→ Cloud-hosted frontend
+
+API
+→ Cloud Run
+
+Async Worker
+→ Cloud Run worker/service
+
+PostgreSQL
+→ Cloud SQL
+
+Media
+→ Google Cloud Storage
+
+Durable async dispatch
+→ Cloud Tasks or equivalent durable job dispatch
+
+Secrets
+→ Secret Manager
+
+AI:
+Gemini / Vertex AI provider adapters
+
+Veo:
+Vertex AI Veo provider adapter
+
+Do not hardcode current model names inside business logic.
+
+Provider/model names come from configuration.
+
+============================================================
+E. ENVIRONMENT MODES
+============================================================
+
+Three explicit modes:
+
+test
+demo
+production
+
+TEST:
+
+- deterministic mocks
+- isolated DB
+- isolated storage
+- NO paid provider calls
+
+DEMO:
+
+- clearly labeled DEMO MODE
+- deterministic provider implementations are allowed
+- demo artifacts must contain providerType=MOCK/DEMO
+
+PRODUCTION:
+
+- real configured provider only
+- NO automatic mock fallback
+- NO demo artifact accepted by production render gate
+
+If production provider is not configured:
+
+PROVIDER_NOT_CONFIGURED
+
+If provider fails:
+
+explicit failure.
+
+Never silently use demo provider.
+
+============================================================
+F. WORKSPACE / AUTHORITY BOUNDARY
+============================================================
+
+Design for one or many users without rewriting the domain later.
+
+Create:
+
+Workspace
+User / authenticated actor context
+
+Every business entity belongs to:
+
+workspaceId
+
+workspaceId comes from authenticated server context.
+
+The frontend may never select an arbitrary authoritative workspaceId.
+
+Even if V3 initially has one local/demo user,
+the database schema must preserve workspace boundaries.
+
+Cross-workspace access:
+
+WORKSPACE_CONTEXT_MISMATCH
+
+Production authentication may use an OIDC-compatible provider,
+Firebase Auth,
+Google Identity,
+or another explicit adapter.
+
+Do not mix authentication logic into domain services.
+
+============================================================
+G. CANONICAL IDENTITY
+============================================================
+
+Every core entity uses an immutable server-generated ID.
+
+Use UUIDv7, ULID, or an equivalently collision-safe monotonic identifier.
+
+Product IDs must NEVER be generated from:
+
+- name
+- SKU
+- category
+- slug
+- supplier code
+
+Two products with exactly the same name:
+must have different IDs.
+
+Client-generated canonical Product IDs are not accepted.
+
+============================================================
+H. CANONICAL HASH LIBRARY
+============================================================
+
+THIS IS CRITICAL.
+
+Create ONE package/module for canonical hashing and canonical serialization.
+No subsystem may independently redefine hash inputs, normalization, ordering, or separators.
+
+All hash functions use stable deterministic serialization and SHA-256.
+
+CANONICAL HASH DOMAINS:
+
+1. productValuesHash()
+Semantic Product values only.
+Excludes provenance, actors, timestamps, verification state, and revision metadata.
+Used by semantic Product compatibility and any AI analysis whose interpretation depends on what the Product is.
+
+2. factAuthorityHash()
+Exact fact values + provenance + source/evidence identity + USER_VERIFIED authority state.
+Verification-only changes MAY change this hash without changing productValuesHash.
+
+3. claimSetHash()
+Exact claim identities/text/risk/evidence/authorization state.
+
+4. revisionSnapshotHash()
+Complete immutable ProductRevision audit identity.
+Includes productValuesHash, factAuthorityHash, claimSetHash and immutable revision metadata as defined by the canonical serializer.
+NEVER use revisionSnapshotHash as a universal downstream invalidation key.
+
+5. rawAssetManifestHash()
+Exact frozen physical asset truth only:
+assetId + assetSha256 + roleAtFreeze + availabilityAtFreeze + render-safe physical metadata required by the contract.
+No AI analysis identity belongs in this hash.
+
+6. assetAnalysisInputHash()
+workspaceId + productId + assetSha256 + productValuesHash +
+provider + model + promptVersion + analyzerVersion/schemaVersion.
+
+7. analysisContextHash()
+Exact frozen set of validated AssetAnalysis identities and their physical/provider/schema bindings +
+rawAssetManifestHash + productValuesHash.
+
+8. creativeTextHash()
+Canonical final creative semantic/copy identity as defined by the creative contract:
+concept/angle where relevant + hook + script + CTA + final spoken/subtitle text used by production gates.
+
+9. scriptHash()
+Exact production spoken-copy identity only:
+canonical hook + canonical script + canonical CTA.
+Use ONE canonical function everywhere.
+Never hash script body only in one subsystem and hook+script+CTA in another.
+
+SCRIPT IDENTITY NORMALIZATION IS SEMANTIC-PRESERVING ONLY:
+- Unicode NFC
+- deterministic line-ending normalization
+- deterministic whitespace/separator normalization
+- preserve actual words, Arabic orthography, digits, punctuation semantics, and intended spoken text
+- DO NOT remove Arabic diacritics for identity
+- DO NOT fold Arabic letters for identity
+- DO NOT convert digits to words for identity
+
+Arabic/ASR tolerant matching uses a SEPARATE alignment-normalization contract in Section AX.
+The alignment matcher MUST NOT redefine scriptHash.
+
+10. audioHash()
+SHA-256 over exact real audio bytes.
+
+11. alignmentHash()
+Exact validated alignment content + audioHash + scriptHash + provider/model/version + alignmentNormalizationProfileVersion.
+
+12. timelineHash()
+Exact canonical MasterTimeline content.
+
+13. scenePlanHash()
+Exact canonical ScenePlan content + exact bound asset/segment/AI-media references.
+
+14. renderInputHash()
+Everything that can physically change the rendered output, including exact timeline, scene plan, media hashes, captions/style, render settings, and selected audio.
+
+15. renderOutputHash()
+SHA-256 over exact final rendered bytes.
+
+MISSING HASH / LEGACY NULL RULE:
+
+A missing required canonical hash is INCOMPATIBLE.
+Patterns such as:
+!hash || compatible
+are forbidden in production compatibility checks.
+
+A legacy artifact without a required binding may only be used after deterministic backfill from immutable source data.
+If exact backfill is impossible:
+STALE / INCOMPATIBLE.
+
+HASH DEPENDENCY RULE:
+
+Downstream artifacts bind only to the hashes they semantically depend on.
+A verification-only change must not force physical asset re-ingestion or multimodal re-analysis when productValuesHash and physical bytes are unchanged.
+A semantic Product value change must invalidate Product-dependent analyses even when asset bytes are unchanged.
+
+============================================================
+I. PRODUCT DOMAIN
+============================================================
+
+Product:
+
+id
+workspaceId
+createdAt
+updatedAt
+currentRevisionId
+status
+
+Product identity is immutable.
+
+Product does NOT directly contain mutable facts as historical truth.
+
+Facts belong to ProductRevision.
+
+============================================================
+J. PRODUCT FACTS — NO INVENTED DEFAULTS
+============================================================
+
+Product Facts may include:
+
+productName
+productCode
+category
+normalizedDescription
+primaryUse
+contents
+materials
+specifications
+verifiedFeatures
+allowedBenefits
+differentiators
+pricing
+offers
+fulfillment
+COD
+shipping
+customerEvidence
+restrictedClaims
+allowedClaims
+other structured factual fields
+
+IMPORTANT:
+
+Do NOT invent defaults.
+
+If the user creates:
+
+Product Name = "X"
+
+and provides no shipping information:
+
+shipping must be UNKNOWN / absent.
+
+Do NOT generate:
+"24-48 hours".
+
+If COD is not provided:
+do not set COD=true.
+
+If quality is not provided:
+do not invent:
+"high quality"
+"premium materials"
+"reliable performance"
+"instant effectiveness"
+
+Empty/unknown facts are valid.
+
+UNKNOWN is better than invented truth.
+
+============================================================
+K. PRODUCT REVISION
+============================================================
+
+Every factual/authority update creates a NEW immutable ProductRevision.
+
+ProductRevision:
+
+id
+workspaceId
+productId
+revisionNumber
+factsJson
+provenanceJson
+claimEvidenceJson
+productValuesHash
+factAuthorityHash
+claimSetHash
+revisionSnapshotHash
+createdAt
+createdBy
+source
+
+revisionNumber:
+monotonic per Product.
+
+Existing ProductRevision:
+immutable.
+
+Updating Product facts or authority NEVER mutates the old revision.
+
+Product.currentRevisionId points to the newest committed revision.
+
+PRODUCT REVISION CONCURRENCY IS MANDATORY:
+
+Database:
+UNIQUE(workspaceId, productId, revisionNumber)
+
+Creation of a new ProductRevision and update of Product.currentRevisionId MUST occur in ONE transaction.
+
+The Product pointer update MUST use compare-and-swap semantics against the expected currentRevisionId/revision.
+
+If the expected current revision is no longer current:
+HTTP 409
+PRODUCT_REVISION_CONFLICT
+
+Exactly one concurrent mutation based on the same current revision may win.
+No duplicate revisionNumber.
+No silent lost update.
+
+VerifyFact / VerifyClaim actions use the same revision concurrency rule.
+
+============================================================
+L. PRODUCT FACTS SNAPSHOT
+============================================================
+
+For downstream reproducibility create immutable ProductFactsSnapshot records.
+
+ProductFactsSnapshot:
+
+id
+workspaceId
+productId
+productRevisionId
+factsJson
+provenanceJson
+claimEvidenceJson
+productValuesHash
+factAuthorityHash
+claimSetHash
+revisionSnapshotHash
+createdAt
+
+Snapshots are immutable.
+
+Historical creatives/renders remain explainable.
+
+A downstream subsystem MUST choose the narrowest canonical hash domain needed by its contract.
+Do not use revisionSnapshotHash merely because it is available.
+
+============================================================
+M. PROVENANCE CONSTITUTION
+============================================================
+
+Supported provenance:
+
+SUPPLIER_SOURCE
+VISUAL_OBSERVATION
+AI_INSIGHT
+USER_VERIFIED
+
+Use exact-value provenance.
+
+ProvenancedField<T> concept:
+
+value
+provenance
+confidence
+sourceRefs[]
+riskClass
+verifiedAt
+verifiedBy
+
+CRITICAL:
+
+provenance.value must always represent the EXACT current value.
+
+If value changes:
+old provenance cannot remain attached.
+
+If field changes from:
+"A"
+
+to:
+"B"
+
+provenance for "A" must not automatically transfer to "B".
+
+============================================================
+N. USER_VERIFIED IS A SERVER ACTION
+============================================================
+
+USER_VERIFIED must NEVER be trusted from normal client field input.
+
+The client cannot simply send:
+
+provenance = USER_VERIFIED
+
+and gain verification.
+
+Verification must use an explicit server command:
+
+VerifyFact
+
+bound to:
+
+workspaceId
+productId
+productRevision/value origin
+field path
+canonical value hash
+actor
+timestamp
+
+Only that explicit action may create USER_VERIFIED provenance.
+
+If value changes:
+verification invalid immediately.
+
+Same rule applies to claim verification.
+
+============================================================
+O. CLAIM RISK
+============================================================
+
+Use risk classes such as:
+
+LOW_RISK_FACTUAL
+COMMERCIAL
+REGULATED_HIGH_RISK
+
+AI_INSIGHT:
+cannot authorize promotional claims.
+
+VISUAL_OBSERVATION:
+cannot automatically authorize promotional claims.
+
+SUPPLIER_SOURCE:
+may support allowed low-risk factual/commercial claims when exact evidence exists.
+
+USER_VERIFIED:
+may support exact verified claim according to risk rules.
+
+REGULATED_HIGH_RISK:
+requires explicit appropriate verification and policy eligibility.
+
+============================================================
+P. CLAIM GROUNDING
+============================================================
+
+Every production creative copy must pass canonical Claim Grounding.
+
+Inspect ALL actual final production copy, including:
+
+conceptName when it contains factual/commercial assertions
+hook
+script
+CTA
+scene spokenLine
+scene subtitleLine
+final captions/subtitles when they introduce factual/commercial assertions
+
+Claim classifications:
+
+SUPPORTED_VERIFIED
+SUPPORTED_SUPPLIER
+NON_FACTUAL_MARKETING_LANGUAGE
+UNVERIFIED
+PROHIBITED
+REGULATED_HIGH_RISK
+
+Gemini/AI may:
+extract candidate claims
+propose classifications
+propose source references
+
+Gemini/AI may NOT authorize claims.
+
+Server deterministic grounding checks canonical facts/provenance/evidence.
+
+AI-provided sourceFactId / sourceClaimId / evidenceRef MUST be resolved against exact current canonical records.
+Unknown/nonexistent/mismatched evidence cannot authorize.
+
+Do not use a blacklist as the entire claim system.
+
+Keep deterministic special rules for:
+pricing
+discounts
+shipping
+COD
+guarantees
+reviews
+ratings
+medical/regulatory claims
+performance claims
+scarcity/urgency
+before-after/result claims
+
+ClaimGroundingResult:
+
+id
+workspaceId
+productId
+creativeId
+factAuthorityHash
+claimSetHash
+creativeTextHash
+scriptHash
+status
+claims
+blockedClaims
+reasonCodes
+checkedAt
+method
+providerMetadata
+
+Status:
+
+PASS
+BLOCKED
+REVIEW_REQUIRED
+BLOCKED_AI_QUOTA
+
+INVALIDATION:
+
+- Any change to actual final spoken/subtitle copy that changes creativeTextHash/scriptHash invalidates the old result.
+- Any change to factAuthorityHash or claimSetHash requires re-grounding affected claims.
+- A verification-only change MUST NOT force physical asset reprocessing or AssetAnalysis recomputation if productValuesHash and asset bytes are unchanged.
+- An unrelated ProductRevision metadata change does NOT invalidate ClaimGroundingResult merely because revisionSnapshotHash changed.
+
+============================================================
+Q. NO UNSAFE CLAIM REWRITES
+============================================================
+
+Never replace one unsupported claim with another unsupported promotional phrase.
+
+Forbidden pattern:
+
+"100% guaranteed"
+→ "trusted and proven"
+
+unless evidence actually supports the replacement.
+
+Preferred behavior:
+
+- remove unsupported assertion
+- use neutral non-factual language
+or
+- reject/regenerate creative safely
+
+No hidden claim laundering.
+
+============================================================
+R. ASSET INGESTION TRUTH
+============================================================
+
+Asset lifecycle:
+
+RECEIVING
+→ STORED
+→ HASHED
+→ PROBED
+→ VALIDATED
+→ READY
+
+or:
+
+FAILED
+QUARANTINED
+SOURCE_UNAVAILABLE
+
+Asset must NOT become READY before physical truth is verified.
+
+Asset:
+
+id
+workspaceId
+productId
+originalFilename
+storageKey
+mimeTypeDeclared
+mimeTypeDetected
+sha256
+fileSize
+width
+height
+duration
+codecMetadata
+role
+availability
+ingestionStatus
+createdAt
+
+Compute sha256 from REAL FILE BYTES.
+
+Do not hash filename/metadata as substitute.
+
+Physical write failure:
+must fail.
+
+No catch-and-continue READY state.
+
+============================================================
+S. MEDIA VALIDATION
+============================================================
+
+Validate:
+
+physical existence
+nonzero size
+safe filename
+actual content signature where practical
+ffprobe
+dimensions
+duration
+codec/container compatibility
+
+Images:
+validate decodability.
+
+Videos/audio:
+ffprobe required.
+
+Declared MIME is not enough.
+
+============================================================
+T. ASSET OWNERSHIP
+============================================================
+
+Asset.productId immutable.
+
+Cannot reassign an Asset to another Product.
+
+Cross-product use:
+
+PRODUCT_CONTEXT_MISMATCH
+
+All Asset lookups:
+workspace-scoped
+and product-scoped.
+
+============================================================
+U. ASSET ROLES
+============================================================
+
+Supported:
+
+AUTO
+HOOK
+DEMO
+DETAIL
+CTA
+REFERENCE_ONLY
+DO_NOT_USE
+
+REFERENCE_ONLY:
+
+may be inspected for structural/reference intelligence.
+
+NEVER production footage.
+
+DO_NOT_USE:
+
+never production candidate.
+
+If reusable licensed stock is later supported:
+create explicit separate media type.
+
+Do not misuse REFERENCE_ONLY.
+
+============================================================
+V. REAL ASSET INTELLIGENCE
+============================================================
+
+Production Asset Intelligence must analyze actual media.
+
+Not only:
+
+filename
+role
+dimensions
+duration
+
+Images:
+send actual image content to multimodal provider.
+
+Videos:
+provider must receive actual video/media content
+or supported uploaded-media reference.
+
+Structured output:
+
+summary
+tags[]
+containsProduct
+productVisibilityScore
+qualityScore
+hookPotentialScore
+shotType
+usefulRoles[]
+observations[]
+evidence[]
+segments[]
+
+Video segments:
+
+start
+end
+description
+tags[]
+purpose
+
+Purpose:
+
+HOOK
+DEMO
+DETAIL
+PROOF
+CTA
+BEFORE_AFTER
+OTHER
+
+Validate:
+
+finite timestamps
+0 <= start < end
+end <= mediaDuration
+monotonic segment boundaries where required
+allowed enum values only
+
+Malformed AI response:
+
+AI_RESPONSE_INVALID
+
+Do not silently coerce unknown values.
+
+============================================================
+W. ASSET INTELLIGENCE PROVENANCE
+============================================================
+
+Visual facts discovered by AI use:
+
+VISUAL_OBSERVATION
+
+never USER_VERIFIED unless a separate explicit server verification action creates that authority.
+
+AssetAnalysis is immutable and retains:
+
+id
+workspaceId
+productId
+assetId
+assetSha256
+productValuesHash
+provider
+model
+promptVersion
+analyzerVersion
+schemaVersion
+assetAnalysisInputHash
+structuredObservations
+structuredEvidence
+segments
+createdAt
+
+Production multimodal analysis input MUST include:
+- actual validated image/video bytes, OR an authenticated provider media reference to the exact validated bytes
+- authoritative Product semantic context represented by productValuesHash and the relevant canonical Product values
+
+Metadata-only prompts may not pretend to be visual inspection.
+
+CACHE IDENTITY IS EXACT:
+
+assetAnalysisInputHash =
+workspaceId
++ productId
++ assetSha256
++ productValuesHash
++ provider
++ model
++ promptVersion
++ analyzerVersion/schemaVersion
+
+Cache lookup requires exact canonical identity.
+No fallback such as:
+contextHash matches OR provider/model/prompt matches.
+
+A Product semantic value change that changes productValuesHash invalidates reuse of Product-dependent AssetAnalysis even when asset bytes are unchanged.
+
+Provider-returned identity fields, when part of the provider schema, must be present and match exact server input.
+Never accept mismatched product/asset/SHA identity.
+
+============================================================
+X. FROZEN ASSET MANIFEST
+============================================================
+
+Physical asset truth and AI analysis truth are separate immutable contexts.
+
+1. RawAssetManifest — PHYSICAL MEDIA TRUTH ONLY
+
+Before downstream creative production, freeze an immutable RawAssetManifest.
+
+RawAssetManifest:
+
+id
+workspaceId
+productId
+createdFromProductRevisionId
+rawAssetManifestHash
+createdAt
+
+RawAssetManifestItem:
+
+assetId
+assetSha256
+roleAtFreeze
+availabilityAtFreeze
+detectedMime
+byteSize
+probe/decode metadata required by production contract
+
+FREEZE ELIGIBILITY:
+
+Only assets whose canonical ingestion status is READY may be included.
+Any non-READY candidate:
+ASSET_NOT_READY
+
+DO_NOT_USE:
+must never be production eligible.
+
+REFERENCE_ONLY:
+may be available for analysis/reference according to policy,
+but MUST NOT be emitted as production footage unless a separate explicit role change creates a new eligible current context.
+
+rawAssetManifestHash includes only canonical physical/frozen media truth.
+It MUST NOT include:
+analysisId
+analysisVersion
+relevantSegmentRefs
+provider/model/prompt identity
+verification timestamps
+
+The old RawAssetManifest remains historical and immutable after later asset mutation/removal.
+Current production eligibility must separately validate current availability/ownership when required.
+
+2. AnalysisContext — MULTIMODAL ANALYSIS TRUTH
+
+After exact AssetAnalysis records exist for the intended Product semantic context, freeze:
+
+AnalysisContext:
+
+id
+workspaceId
+productId
+rawAssetManifestId
+rawAssetManifestHash
+productValuesHash
+analysisContextHash
+analysisRefs[]
+createdAt
+
+Each analysisRef includes at minimum:
+
+assetId
+assetSha256
+analysisId
+assetAnalysisInputHash
+provider
+model
+promptVersion
+analyzerVersion/schemaVersion
+relevantSegmentRefs
+productionEligible
+structuredEvidenceRefs
+
+analysisContextHash authenticates the exact validated analysis set plus rawAssetManifestHash + productValuesHash.
+
+DOWNSTREAM AUTHORITY:
+
+Product Intelligence, Creative generation, Scene planning and any visual-evidence gate MUST bind to one exact AnalysisContext ID + analysisContextHash.
+
+Never fetch or substitute arbitrary "latest analysis" at downstream execution time.
+
+Missing AnalysisContext or missing/mismatched analysis IDs/hashes:
+ANALYSIS_CONTEXT_REQUIRED / CONTEXT_MISMATCH
+fail closed.
+
+============================================================
+Y. PRODUCT INTELLIGENCE
+============================================================
+
+Product Intelligence is a first-class system.
+
+Inputs:
+
+ProductFactsSnapshot
+RawAssetManifest
+exact AnalysisContext
+Asset Intelligence results referenced by that AnalysisContext
+supplier facts
+
+AI proposes:
+
+category
+normalizedDescription
+primaryUse
+features
+benefits
+audiences
+painPoints
+differentiators
+objections
+demoOpportunities
+marketingAngles
+claimCandidates
+
+Every suggestion:
+
+suggestionId
+fieldPath
+proposedValue
+confidence
+evidenceRefs[]
+provenance
+riskClass
+status
+
+Status:
+
+PROPOSED
+ACCEPTED
+EDITED
+REJECTED
+VERIFIED
+
+Important:
+
+ACCEPTED does NOT automatically mean USER_VERIFIED.
+
+AI-generated accepted suggestion:
+remains AI_INSIGHT unless explicitly verified.
+
+Visual observation:
+remains VISUAL_OBSERVATION unless explicitly verified.
+
+Explicit verification:
+USER_VERIFIED.
+
+============================================================
+Z. PRODUCT INTELLIGENCE FLOW
+============================================================
+
+Analyze Product
+
+→ AI proposes
+
+→ User:
+Accept
+Edit
+Reject
+Verify
+
+→ Save
+
+→ create NEW ProductRevision
+
+Never mutate existing ProductRevision.
+
+Never auto-save AI Insight directly as trusted truth.
+
+============================================================
+AA. CREATIVE PACK
+============================================================
+
+CreativePack is a server-authoritative versioned aggregate for one exact production context.
+
+CreativePack:
+
+id
+workspaceId
+productId
+productRevisionId
+factsSnapshotId
+productValuesHash
+factAuthorityHash
+claimSetHash
+rawAssetManifestId
+rawAssetManifestHash
+analysisContextId
+analysisContextHash
+revision
+status
+createdAt
+updatedAt
+
+A PRODUCTION CreativePack contains EXACTLY six distinct eligible creatives.
+Candidate pools may contain any count, but are not a production CreativePack.
+
+If fewer than six eligible distinct creatives can be produced safely:
+INSUFFICIENT_ELIGIBLE_CONCEPTS
+
+Never persist an under-six pack as production-ready.
+
+CreativePack aggregate is server-authoritative.
+
+============================================================
+AB. OPTIMISTIC CONCURRENCY
+============================================================
+
+CreativePack mutation requires:
+
+expectedRevision
+
+Initial:
+revision = 1
+
+Successful mutation:
+revision + 1 exactly once.
+
+Stale mutation:
+
+HTTP 409
+PACK_VERSION_CONFLICT
+
+No blind full aggregate replacement.
+
+No client flag:
+
+isNewPack=true
+
+can bypass revision safety.
+
+Use DB transaction.
+
+Two writes based on revision N:
+
+exactly one succeeds.
+
+============================================================
+AC. CREATIVE ARCHETYPE REGISTRY
+============================================================
+
+Output target:
+
+EXACTLY 6 distinct creatives when sufficient evidence exists.
+
+Do NOT hardcode six mandatory unsafe archetypes.
+
+Use candidate registry.
+
+Core creative families include:
+
+PROBLEM_SOLUTION
+UGC_EXPERIENCE
+PRODUCT_DEMO
+CURIOSITY_VIRAL
+BEFORE_AFTER_TRANSFORMATION
+URGENT_OFFER_SCARCITY
+
+Replacement/alternative archetypes may include:
+
+FEATURE_DEMONSTRATION
+OBJECTION_HANDLING
+CONVENIENCE_TIME_SAVING
+OLD_VS_NEW_COMPARISON
+BENEFIT_LED_VALUE
+EDUCATIONAL_HOW_IT_WORKS
+SOCIAL_PROOF_TESTIMONIAL
+and other explicitly defined safe archetypes
+
+Eligibility determines selection.
+
+============================================================
+AD. ARCHETYPE EVIDENCE GATES
+============================================================
+
+BEFORE_AFTER_TRANSFORMATION:
+
+Requires BOTH:
+
+1. grounded transformation/result/comparison fact
+
+AND
+
+2. structured Asset Intelligence evidence that visually demonstrates
+before/after/transformation/result.
+
+Asset role alone:
+NOT sufficient.
+
+Filename:
+NOT sufficient.
+
+Generic DETAIL:
+NOT sufficient.
+
+Generic DEMO:
+NOT sufficient.
+
+No structured proof:
+INELIGIBLE.
+
+SOCIAL_PROOF_TESTIMONIAL:
+
+Requires canonical verified customer evidence.
+
+Examples:
+
+customerEvidence.enabled = true
+customerEvidence.isVerified = true
+
+AND:
+
+reviewCount > 0
+OR verifiedQuotes.length > 0
+
+AI claiming:
+"customers love this"
+does NOT unlock Social Proof.
+
+URGENT_OFFER_SCARCITY:
+
+requires explicit verified pricing/discount/offer/scarcity evidence.
+
+Do not fabricate urgency.
+
+============================================================
+AE. EXACT SIX RULE
+============================================================
+
+Try eligible replacements until six distinct evidence-safe concepts exist.
+
+Never:
+
+duplicate one concept
+or
+insert an ineligible fallback
+just to reach six.
+
+If fewer than six eligible concepts truly exist:
+
+INSUFFICIENT_ELIGIBLE_CONCEPTS
+
+Return count and missing evidence.
+
+Truth is more important than exactly six.
+
+============================================================
+AF. CREATIVE DNA
+============================================================
+
+Each creative has:
+
+creativeId
+archetype
+angle
+awarenessStage
+targetAudience
+painPoint
+hookStyle
+proofStrategy
+tone
+CTA strategy
+targetDuration
+distinctiveness markers
+
+Creatives must be meaningfully distinct.
+
+Not six paraphrases.
+
+============================================================
+AG. AI TEXT HOOK
+============================================================
+
+Hooks are AI-generated.
+
+Creative generation produces:
+
+Concept
+Angle
+Hook
+Script
+CTA
+
+Hook should generally cover first ~1–3 seconds.
+
+Hook Lab must support later:
+
+Regenerate Hook
+Generate Alternatives
+Compare Alternatives
+
+Changing Hook invalidates all downstream artifacts whose hash depends on creative text.
+
+No stale voice/alignment survives a Hook edit.
+
+============================================================
+AH. CREATIVE GENERATION INPUT
+============================================================
+
+Creative generator receives SERVER-RESOLVED:
+
+ProductFactsSnapshot
+Product Intelligence
+Claim-safe evidence context
+RawAssetManifest
+exact AnalysisContext
+Asset Intelligence evidence resolved only through that AnalysisContext
+Creative DNA
+
+Client does not send canonical facts/assets as truth.
+
+============================================================
+AI. CREATIVE GENERATION OUTPUT
+============================================================
+
+At minimum each generated Creative candidate records:
+
+creativeId
+workspaceId
+productId
+packId
+productValuesHash
+factAuthorityHash
+claimSetHash
+rawAssetManifestHash
+analysisContextId
+analysisContextHash
+archetype
+conceptName
+angle
+hook
+script
+CTA
+targetDuration
+creativeTextHash
+scriptHash
+claimReferences
+claimProvenance
+semanticStatus
+claimStatus
+status
+
+No default status=APPROVED.
+
+Generated object begins:
+DRAFT / VALIDATING
+
+Only becomes APPROVED/READY_FOR_PRODUCTION after all exact current gates pass.
+
+No missing/null canonical binding may be treated as compatible.
+
+============================================================
+AJ. CLAIM PROVENANCE DURABILITY
+============================================================
+
+claimProvenance must be persisted durably.
+
+No memory-only provenance.
+
+Database round-trip must preserve exact provenance structure.
+
+============================================================
+AK. SEMANTIC PRODUCT CONSISTENCY
+============================================================
+
+Identity equality is NOT semantic equality.
+
+Example:
+
+facts:
+air-fryer paper liner
+
+creative:
+thermal cup keeping coffee hot/cold
+
+Even with same productId:
+MUST BLOCK.
+
+CreativeProductConsistencyResult:
+
+id
+workspaceId
+productId
+productValuesHash
+creativeId
+creativeTextHash
+status
+confidence
+reasonCodes
+evidence
+method
+providerMetadata
+checkedAt
+
+Status:
+
+PASS
+MISMATCH
+REVIEW_REQUIRED
+BLOCKED_AI_QUOTA
+
+Method:
+
+DETERMINISTIC
+AI
+USER_VERIFIED
+
+Canonical semantic binding:
+
+productValuesHash
++
+creativeTextHash
+
+A semantic Product value change or creativeTextHash change invalidates the old semantic result.
+
+Verification/provenance-only changes that leave productValuesHash unchanged do not require semantic re-analysis solely because factAuthorityHash changed.
+
+============================================================
+AL. SEMANTIC USER VERIFICATION
+============================================================
+
+For ambiguous semantic cases, the user may invoke an explicit Verify Product Match server action.
+
+Verification is bound to:
+
+workspaceId
+productId
+productValuesHash
+creativeId
+creativeTextHash
+actor
+verifiedAt
+
+Changing Product semantic values or creative text invalidates that semantic verification.
+
+A semantic verification can NEVER bypass:
+identity/workspace ownership
+claim grounding
+asset ownership/availability
+AnalysisContext integrity
+render truth
+QA truth
+
+============================================================
+AM. CREATIVE VALIDATION BEFORE PERSISTENCE
+============================================================
+
+Before production-approved persistence verify:
+
+- archetype eligible
+- exactly correct Product context
+- ProductRevision / Product hash context current/frozen as expected
+- RawAssetManifest ID/hash exact
+- AnalysisContext ID/hash exact and its analysisRefs validate
+- referenced assets exist and satisfy current ownership/availability rules
+- claim validation PASS
+- semantic consistency PASS or exact current user verification
+- no unsupported/restricted claim
+- canonical hashes generated
+
+Failed generation must not be stored as APPROVED.
+
+============================================================
+AN. CREATIVE REGENERATION ATOMICITY
+============================================================
+
+Do NOT:
+
+DELETE old six creatives
+then separately INSERT new six.
+
+Use transaction/staging.
+
+New set must be fully generated and validated.
+
+Then atomically replace active generation set.
+
+If creative #4 fails:
+old generation remains intact.
+
+No partial creative pack.
+
+============================================================
+AO. PIPELINE STATE MODEL
+============================================================
+
+Server owns/derives:
+
+semanticStatus
+claimStatus
+voiceStatus
+alignmentStatus
+timelineStatus
+scenePlanStatus
+visualStatus
+renderEligibility
+renderStatus
+qaStatus
+
+Do not trust UI booleans.
+
+Prefer artifact/hash-derived truth.
+
+============================================================
+AP. STALENESS MATRIX
+============================================================
+
+Implement dependency-driven server-side staleness.
+Never use "new ProductRevision exists" as a universal invalidation rule.
+
+Hook/script/CTA edit:
+
+semantic → STALE
+claims → STALE
+voice → STALE
+alignment → STALE
+timeline → STALE
+timing-dependent scenes → STALE
+render eligibility → INVALID
+existing future QA authority → INVALID
+
+Verification/authority-only change where productValuesHash is unchanged:
+
+raw physical assets → KEEP
+AssetAnalysis → KEEP
+AnalysisContext → KEEP if its exact inputs remain valid
+semantic consistency → KEEP
+claim grounding → RE-EVALUATE affected claims
+TTS/alignment/timeline → KEEP if actual creative text/audio inputs unchanged
+render/QA → KEEP only if renderInputHash/renderOutputHash unchanged and creative remains production-eligible
+
+Product semantic value change where productValuesHash changes:
+
+raw physical bytes → KEEP
+Product-dependent AssetAnalysis → STALE / new input identity
+AnalysisContext → STALE for current semantic context
+Product Intelligence → STALE
+semantic consistency → STALE
+affected creative eligibility/grounding → STALE
+downstream voice/timeline/scenes/render stale only according to exact changed creative/render dependencies
+
+ClaimSet/factAuthority change:
+
+re-ground affected creatives.
+Do not re-ingest or re-analyze physical media solely for authority change.
+
+Asset bytes change:
+
+old RawAssetManifest remains historical
+new current physical context required
+dependent AssetAnalysis/AnalysisContext/scenes/render → STALE
+
+Asset role/removal/unavailability:
+
+old RawAssetManifest remains historical
+current production eligibility re-evaluated immediately
+affected scene → INVALID
+render → BLOCKED/STALE
+old QA cannot authorize any new render output
+
+Voice regeneration:
+
+alignment → STALE
+timeline → STALE
+timing scenes → STALE
+render → INVALID
+
+Alignment change:
+
+timeline/scenes/render → STALE
+
+Scene selection change:
+
+render → STALE
+old QA cannot authorize new render.
+
+
+============================================================
+AQ. DURABLE ASYNC JOB
+============================================================
+
+Create generic durable AsyncJob.
+
+AsyncJob:
+
+id
+workspaceId
+type
+productId
+productRevisionIdForAudit
+packId
+packRevisionForAudit
+creativeId
+targetEntityId
+inputHash
+dependencySnapshotJson
+provider
+providerOperationId
+state
+resultRef
+errorCode
+createdAt
+startedAt
+updatedAt
+completedAt
+
+States:
+
+WAITING
+RUNNING
+BLOCKED
+COMPLETED
+FAILED
+INTERRUPTED
+STALE
+
+TARGET-SPECIFIC STALENESS AUTHORITY:
+
+Aggregate packRevision/productRevision may be stored for audit but MUST NOT, by itself, invalidate an unrelated sibling operation.
+
+Each operation defines one canonical inputHash / dependency set.
+
+Examples:
+
+TTS:
+scriptHash + voiceProfile/settings + provider/model
+
+Alignment:
+audioHash + scriptHash + provider/model/version + alignmentNormalizationProfileVersion
+
+AI Visual / Veo:
+exact scene visualInputHash
+
+Render:
+renderInputHash
+
+PRE-START REVALIDATION:
+
+Immediately before WAITING/QUEUED -> RUNNING or before any paid external provider dispatch:
+recompute/resolve the current target-specific canonical dependency identity.
+
+If incompatible:
+mark STALE / STALE_ASYNC_RESULT
+DO NOT spend paid provider cost.
+
+COMPLETION REVALIDATION:
+
+Before applying provider completion:
+revalidate the same target-specific dependency identity against CURRENT server state.
+
+If exact target dependency changed:
+STALE_ASYNC_RESULT
+
+Do NOT reject a valid Creative 1 result merely because unrelated Creative 2 changed and incremented aggregate packRevision.
+
+Old completion must not overwrite newer work.
+Old failure must not downgrade newer success.
+
+Provider completion may be stored historically even when stale, but it may not become current canonical output.
+
+============================================================
+AR. SERVER-SIDE DEDUPE
+============================================================
+
+Expensive/idempotent operations require canonical server-side dedupe.
+
+Canonical dedupe key includes, as appropriate:
+
+workspaceId
+productId
+creativeId/targetEntityId
+sceneId where applicable
+operationType
+inputHash
+provider
+model/profile
+
+At minimum apply to:
+
+Product Intelligence
+Asset Intelligence
+TTS
+alignment
+Veo/AI visuals
+render jobs when duplicate execution is expensive or unsafe
+
+Identical concurrent request:
+ONE underlying operation.
+
+Frontend button disable:
+NOT sufficient.
+
+PAID OPERATION CLAIM:
+
+Before any external paid provider call, acquire a durable DB claim/operation row inside a transaction.
+
+For AIVisualOperation/Veo, require a database uniqueness constraint equivalent to:
+
+UNIQUE(workspaceId, productId, creativeId, sceneId, inputHash, provider, model)
+
+The winning transaction creates PENDING/CLAIMED state BEFORE provider dispatch.
+Concurrent losers attach to/read the existing operation and MUST NOT issue a second paid call.
+
+If provider dispatch fails before providerOperationId is persisted, state/error must be explicit and retry semantics must not permit ambiguous duplicate spend.
+
+============================================================
+AS. RETRY / QUOTA
+============================================================
+
+Use ONE shared provider execution/retry/quota/error module.
+
+Canonical provider error taxonomy:
+
+PROVIDER_NOT_CONFIGURED
+PROVIDER_AUTH_FAILED
+SOURCE_UNAVAILABLE
+AI_QUOTA_EXHAUSTED
+AI_RATE_LIMIT
+AI_SERVICE_UNAVAILABLE
+AI_CLIENT_ERROR
+AI_RESPONSE_INVALID
+AI_TIMEOUT
+STALE_ASYNC_RESULT
+
+Classify at minimum:
+
+429 transient rate limit
+503 unavailable
+400 client/validation error
+401/403 authentication/authorization failure
+hard daily/project quota / RESOURCE_EXHAUSTED
+timeout
+malformed/invalid structured response
+missing provider configuration
+
+Hard quota:
+fail fast.
+Do not loop across many models/attempts after a classified hard project/daily quota.
+
+Use server-wide/provider-scoped circuit breaker where appropriate.
+
+Retry policy must be bounded and shared.
+No subsystem-specific hidden retry storm.
+
+Raw provider payload:
+developer logs only.
+Never expose secrets/raw provider internals to normal client responses.
+
+============================================================
+AT. REAL TTS
+============================================================
+
+Production TTS:
+real configured provider only.
+
+NO synthetic audio fallback pretending to be TTS.
+
+VoiceArtifact:
+
+id
+workspaceId
+productId
+creativeId
+scriptHash
+voiceProfile
+provider
+model
+generationSettingsHash
+storageKey
+audioSha256
+duration
+fileSize
+createdAt
+
+READY only if:
+
+physical file exists
+nonzero
+hash verified
+ffprobe valid
+duration valid
+
+Cache identity includes:
+
+productId
+creativeId
+scriptHash
+voiceProfile
+provider
+model
+generation settings
+
+Model A artifact cannot silently satisfy Model B request.
+
+============================================================
+AU. MISSING VOICE
+============================================================
+
+If intended voice file disappears:
+
+SOURCE_UNAVAILABLE
+
+Never:
+
+search directory for another .wav
+generate default WAV
+substitute another creative voice
+
+============================================================
+AV. TARGET DURATION
+============================================================
+
+Real voice is the clock.
+
+For target 30 seconds:
+use approximate working acceptance window 27–33 seconds.
+
+Fit Script to Target:
+
+maximum 2 controlled rewrite attempts.
+
+Then report actual duration honestly.
+
+Do not falsely time-stretch truth just to equal 30.000.
+
+============================================================
+AW. STRICT REAL ALIGNMENT
+============================================================
+
+Production alignment must use REAL speech/audio alignment.
+
+Allowed strategies:
+
+Google Speech provider
+Gemini multimodal audio alignment
+other explicitly approved real ASR provider
+
+Forbidden:
+
+equal word spacing
+duration/word-count interpolation
+phonetic estimation
+synthetic timings
+
+If unavailable:
+
+ALIGNMENT_FAILED
+
+If quota:
+
+ALIGNMENT_BLOCKED_AI_QUOTA
+
+============================================================
+AX. ALIGNMENT VALIDATION
+============================================================
+
+Production alignment validation uses the real audio + real provider transcript/timestamps.
+
+Validate:
+
+timestamps finite
+no NaN/Infinity
+nonempty words/phrases
+ordered tokens
+start <= end
+inside audio duration
+meaningful transcript coverage
+reasonable ordered transcript correspondence
+no tiny subset pretending to be complete
+first/last timing plausible
+last aligned speech reasonably related to actual voice end
+no impossible unexplained gaps
+no duplicate/corrupt records
+
+Example:
+
+50-word script
+provider returns 2 words
+
+=> ALIGNMENT_INCOMPLETE
+
+Do not repair missing words by interpolation.
+
+ARABIC / SAUDI ALIGNMENT NORMALIZATION:
+
+scriptHash remains the exact production spoken-copy identity from Section H.
+Do NOT modify scriptHash with tolerant ASR normalization.
+
+For transcript matching only, use a versioned deterministic:
+alignmentNormalizationProfileVersion
+
+The matcher may normalize BOTH expected-script tokens and provider transcript tokens using rules such as:
+
+- Unicode normalization
+- remove Arabic diacritics/tashkeel for comparison
+- remove tatweel/kashida for comparison
+- normalize punctuation/separators for comparison
+- normalize Alef variants (أ, إ, آ, ٱ -> ا) for comparison
+- optionally normalize ى -> ي for comparison when the chosen matcher profile proves safe
+- preserve raw original tokens and a mapping from normalized tokens back to raw text positions
+- DO NOT globally normalize ة -> ه unless a risk spike proves a narrowly-scoped rule is needed
+- compare Western/Arabic-Indic digits and equivalent spoken Arabic number forms through a deterministic number-equivalence parser/lexicon, not by rewriting canonical script identity
+
+Tolerance rules MUST NOT fabricate missing timestamps.
+
+Coverage and ordered-correspondence thresholds MUST be fixed after Risk Spike 2 and versioned as part of the alignment contract.
+
+If normalized matching cannot prove sufficient correspondence:
+ALIGNMENT_INCOMPLETE
+
+No synthetic fallback.
+
+============================================================
+AY. ALIGNMENT CACHE
+============================================================
+
+Identity:
+
+audioSha256
+scriptHash
+provider
+model/version
+
+Provider A alignment:
+not Provider B cache hit.
+
+Physical/audio input change:
+cache invalid.
+
+============================================================
+AZ. MASTER TIMELINE
+============================================================
+
+Built only from:
+
+real VoiceArtifact
++
+valid strict AlignmentArtifact
+
+Includes:
+
+voice duration
+word timings
+caption cues
+scene timing boundaries
+
+Timeline hash canonical.
+
+No independent scene clock.
+
+Preview and FFmpeg use same timeline contract.
+
+============================================================
+BA. CAPTIONS
+============================================================
+
+Arabic/Saudi text support.
+
+RTL-safe rendering.
+
+Caption cues derive from real alignment.
+
+No fake caption timing.
+
+Advanced styling later,
+timing truth first.
+
+============================================================
+BB. SCENE BLUEPRINT
+============================================================
+
+Inputs:
+
+Creative
+MasterTimeline
+Product Intelligence
+RawAssetManifest
+exact AnalysisContext
+Asset Intelligence evidence resolved only through that AnalysisContext
+
+Each Scene:
+
+sceneId
+purpose
+start
+end
+spoken span
+caption span
+desired visual role
+proof requirement
+candidate evidence requirements
+selected media ref
+selection method
+
+Typical ~30 second creative:
+often 6–8 scenes,
+but do not force fixed count.
+
+============================================================
+BC. AUTHORITATIVE ASSET BINDING
+============================================================
+
+Scene candidate pool comes only from:
+
+frozen/validated RawAssetManifest
++
+exact AnalysisContext for evidence/segments
++
+current availability/ownership validation
+
+Not client asset objects.
+
+Not arbitrary current DB assets outside manifest.
+
+Wrong Product:
+blocked.
+
+REFERENCE_ONLY:
+never production.
+
+DO_NOT_USE:
+never production.
+
+============================================================
+BD. MANUAL OVERRIDES
+============================================================
+
+Manual visual override uses same safety rules.
+
+Cannot bypass:
+
+product ownership
+manifest inclusion
+role
+availability
+file existence
+render safety
+
+Manual is not superuser truth.
+
+============================================================
+BE. HYBRID VISUAL POLICY
+============================================================
+
+Real product assets are visual truth.
+
+Prefer real media for:
+
+exact product appearance
+demo
+proof
+features
+CTA/product close
+
+AI visuals may be used selectively for:
+
+hook
+human reaction
+pain/problem moment
+lifestyle/context
+transition
+missing contextual shot
+
+Do not replace exact functional proof by hallucinated AI product behavior.
+
+============================================================
+BF. AI VISUAL HOOK / VEO
+============================================================
+
+Veo is behind a provider interface.
+
+Paid operation lifecycle is durable.
+
+AIVisualOperation:
+
+id
+workspaceId
+productId
+creativeId
+sceneId
+inputHash
+provider
+model
+providerOperationId
+statusUrl
+state
+createdAt
+updatedAt
+outputStorageKey
+outputSha256
+errorCode
+
+Canonical duplicate prevention is database-enforced.
+
+Require an exact unique dedupe identity equivalent to:
+
+workspaceId
++ productId
++ creativeId
++ sceneId
++ inputHash
++ provider
++ model
+
+BEFORE provider dispatch:
+
+1. begin transaction
+2. create/claim durable PENDING operation under the unique identity
+3. commit claim
+4. only the winner may call the paid provider
+5. concurrent duplicates attach to the existing operation
+
+Do not wait until providerOperationId exists to dedupe.
+That is too late and can double-spend.
+
+Same generation key:
+attach to existing active operation.
+
+Do not start second paid generation.
+
+============================================================
+BG. VEO RESTART TRUTH
+============================================================
+
+Server restart must not lose paid operation.
+
+Pending operation remains persisted.
+
+Worker can reconcile/poll existing providerOperationId.
+
+Client disconnect does not cancel historical truth.
+
+Output becomes READY only after:
+
+provider completed
+download stored
+physical file exists
+hash computed
+ffprobe valid
+ownership/context valid
+stale-origin check passes
+
+============================================================
+BH. CREATIVE COHERENCE
+============================================================
+
+Whole creative sequence check.
+
+Check:
+
+same Product domain
+hook matches narrative
+visuals support spoken script
+proof scenes have evidence
+CTA logically follows
+no unrelated shot
+no contradiction
+no unnecessary repetition
+six creatives meaningfully differ
+
+AI may score/explain.
+
+Deterministic ownership/claims remain separate.
+
+============================================================
+BI. CANONICAL RENDER REQUEST
+============================================================
+
+Frontend render request contains only canonical identifiers/options.
+
+Example:
+
+POST /api/renders
+
+{
+  packId,
+  creativeId,
+  renderOptions
+}
+
+DO NOT accept client facts/assets/timeline/creative objects as render authority.
+
+Server resolves everything.
+
+============================================================
+BJ. CANONICAL RENDER PAYLOAD
+============================================================
+
+Server resolves:
+
+authenticated workspace
+active Product
+CreativePack
+ProductFactsSnapshot
+ProductRevision
+RawAssetManifest
+AnalysisContext
+Creative
+current semantic check
+current claim grounding
+VoiceArtifact
+AlignmentArtifact
+MasterTimeline
+ScenePlan
+authoritative media
+render settings
+
+Then constructs canonical payload.
+
+============================================================
+BK. FINAL RENDER ELIGIBILITY
+============================================================
+
+ONE canonical render gate.
+
+No duplicate weaker gate.
+
+Verify independently:
+
+WORKSPACE
+PRODUCT
+PACK
+REVISION
+FACTS HASH
+ASSET MANIFEST
+SEMANTIC
+CLAIMS
+VOICE
+ALIGNMENT
+TIMELINE
+SCENES
+MEDIA AVAILABILITY
+MEDIA OWNERSHIP
+AI MEDIA VALIDITY
+RENDER SETTINGS
+
+If any truth fails:
+
+NOT READY.
+
+No UI override.
+
+============================================================
+BL. REAL FFMPEG
+============================================================
+
+Production render must actually execute FFmpeg.
+
+Target:
+
+1080x1920
+9:16
+30fps
+H.264
+yuv420p
+AAC stereo
+
+Use:
+
+canonical timeline
+selected scenes
+real voice
+captions
+BGM
+configured transitions
+
+No fake rendered URL.
+
+============================================================
+BM. RENDER OUTPUT VALIDATION
+============================================================
+
+COMPLETED only if:
+
+FFmpeg exits successfully
+physical MP4 exists
+nonzero
+ffprobe succeeds
+video stream exists
+audio stream exists
+dimensions correct
+duration plausible
+codec/container compatible
+outputSha256 computed
+
+Missing MP4:
+cannot remain COMPLETED.
+
+============================================================
+BN. BGM
+============================================================
+
+BGM supported.
+
+Voice remains intelligible.
+
+Deterministic mix/duck rules.
+
+If a known generated BGM asset is missing:
+recreate that exact configured BGM if allowed.
+
+Never substitute random media.
+
+============================================================
+BO. RENDER JOB
+============================================================
+
+RenderJob:
+
+id
+workspaceId
+productId
+packId
+creativeId
+renderInputHash
+state
+createdAt
+startedAt
+updatedAt
+completedAt
+outputStorageKey
+outputSha256
+ffprobeMetadata
+errorCode
+diagnostics
+
+States:
+
+WAITING
+PREPARING
+RENDERING
+VALIDATING
+COMPLETED
+FAILED
+INTERRUPTED
+
+Restart reconciliation required.
+
+Jobs stuck in active processing at crash:
+reconcile truthfully.
+
+============================================================
+BP. QA
+============================================================
+
+Default:
+
+NOT_REVIEWED
+
+QAReview:
+
+id
+workspaceId
+renderJobId
+renderOutputHash
+status
+checklist
+notes
+reviewedBy
+reviewedAt
+
+Canonical statuses:
+
+NOT_REVIEWED
+RUNNING
+APPROVED
+NEEDS_RERENDER
+REJECTED
+
+The enum/status value PASSED is forbidden for canonical QA state.
+
+Default is always:
+NOT_REVIEWED
+
+Approval is exact-output-bound.
+
+New render/output hash:
+old approval cannot authorize it.
+
+No DB default may create APPROVED.
+
+============================================================
+BQ. PRODUCTION DOWNLOAD
+============================================================
+
+Production download/export only if ALL are true:
+
+RenderJob COMPLETED
+physical output exists
+output hash matches renderOutputHash
+ffprobe/physical validation still passes as required
+QA status == APPROVED
+QAReview.renderOutputHash == exact current renderOutputHash
+
+Otherwise:
+blocked.
+
+Preview download:
+explicitly labeled PREVIEW
+and must never be confused with production-approved export.
+
+============================================================
+BR. RENDER QUEUE
+============================================================
+
+Only after single-render path is proven safe.
+
+Durable queue.
+
+Controlled concurrency.
+
+Idempotent render input hash.
+
+Restart recovery.
+
+Do not scale defects x6.
+
+============================================================
+BS. ZIP / PACK EXPORT
+============================================================
+
+Export may include:
+
+approved MP4s
+manifest.json
+scripts
+captions
+timeline metadata
+creative strategy
+Product snapshot refs
+asset manifest refs
+render hashes
+QA metadata
+provider metadata
+
+Do not put unapproved production outputs into production package.
+
+============================================================
+BT. ANALYTICS / WINNER ITERATION
+============================================================
+
+Design extension points for:
+
+performance events
+creative version lineage
+winner selection
+iteration suggestions
+
+Analytics must never mutate historical creative truth.
+
+Winner Iteration creates new creative revisions/plans.
+
+============================================================
+BU. UI INFORMATION ARCHITECTURE
+============================================================
+
+Primary navigation:
+
+Product
+Assets
+Intelligence
+Verify
+Creative
+Production
+QA / Export
+
+Creative spine:
+
+Truth
+Strategy
+Voice
+Timing
+Visuals
+Render
+
+Show stale state visibly.
+
+Normal user sees clear Arabic messages.
+
+Developer Mode may expose:
+
+IDs
+hashes
+error codes
+provider diagnostics
+
+============================================================
+BV. PRODUCT UI
+============================================================
+
+Support:
+
+create/select Product
+edit Facts
+revision history
+supplier facts
+Product Intelligence
+provenance indicators
+Accept/Edit/Reject/Verify
+claim restrictions
+
+Price optional.
+
+Price must not appear in creative unless explicitly enabled and supported.
+
+============================================================
+BW. ASSET UI
+============================================================
+
+Support:
+
+multi-upload
+preview
+role
+upload status
+analysis status
+semantic segments
+availability
+retry
+delete
+
+REFERENCE_ONLY visibly distinct.
+
+============================================================
+BX. CREATIVE REVIEW
+============================================================
+
+Support:
+
+creative selector
+six creative cards
+Creative DNA
+Hook
+Hook Lab
+script editor
+CTA
+claim status
+semantic Product Match
+voice status
+alignment status
+target duration
+scene strip
+manual replacements
+AI visual status
+preview
+render eligibility
+
+Upstream edits visibly stale downstream.
+
+============================================================
+BY. API AUTHORITY RULE
+============================================================
+
+Any route receiving:
+
+productId
+workspaceId
+revision
+status
+facts
+assets
+creative object
+timeline
+
+must treat them as:
+
+request data/assertions only
+
+unless that endpoint explicitly creates that data.
+
+Canonical state must be resolved from server repositories.
+
+Never use:
+
+clientProductId || serverProductId
+
+as authority.
+
+Use server authority,
+then validate optional client assertion matches.
+
+============================================================
+BZ. STRUCTURED AI OUTPUT VALIDATION
+============================================================
+
+All AI structured outputs require runtime schema validation.
+
+Enums:
+strict allowed values.
+
+Unknown enum:
+AI_RESPONSE_INVALID.
+
+Missing required evidence:
+fail.
+
+Malformed JSON:
+fail.
+
+Do not convert unknown classification into PASS.
+
+============================================================
+CA. LOGGING / AUDIT
+============================================================
+
+Structured logs.
+
+Useful context:
+
+requestId
+workspaceId
+productId
+productRevisionId
+productValuesHash
+factAuthorityHash
+claimSetHash
+revisionSnapshotHash
+rawAssetManifestId
+rawAssetManifestHash
+analysisContextId
+analysisContextHash
+packId
+packRevision
+creativeId
+jobId
+providerOperationId
+inputHash
+errorCode
+
+No secrets.
+
+Must be possible to answer:
+
+"What exact upstream truth produced this artifact?"
+
+============================================================
+CB. SECURITY
+============================================================
+
+No API secrets in browser.
+
+Validate request size.
+
+Validate uploaded file limits.
+
+Safe storage keys.
+
+Prevent path traversal.
+
+Rate-limit expensive endpoints appropriately.
+
+Workspace authorization on all repository queries.
+
+Do not expose internal filesystem paths to normal clients.
+
+============================================================
+CC. DATABASE TRANSACTIONS
+============================================================
+
+Use transactions for aggregate mutations.
+
+Examples:
+
+new ProductRevision + Product.currentRevisionId
+CreativePack revision update
+six-creative atomic generation replacement
+QA approval
+job completion metadata
+
+Do not leave half-written authoritative state.
+
+============================================================
+CD. TEST ISOLATION
+============================================================
+
+Every test:
+
+isolated DB
+isolated storage directory/bucket namespace
+isolated provider mocks
+
+Tests never touch:
+
+development DB
+production DB
+development uploads
+production media
+
+CI must prove no production path was modified.
+
+============================================================
+CE. TEST LEVELS
+============================================================
+
+Require:
+
+unit tests
+domain tests
+repository tests
+HTTP integration tests
+worker/job tests
+restart tests
+concurrency tests
+TRUE HTTP E2E
+
+A direct service test is NOT equivalent to HTTP E2E.
+
+============================================================
+CF. REQUIRED ADVERSARIAL SUITE
+============================================================
+
+Eventually V3 must deterministically test at minimum:
+
+same-name Products get unique IDs
+
+client cannot spoof Product identity
+
+client cannot spoof Workspace identity
+
+Product creation does not invent shipping/COD/quality facts
+
+USER_VERIFIED cannot be sent directly by client
+
+changed fact invalidates old verification
+
+removed claim cannot reappear
+
+upload write failure never becomes READY
+
+fake metadata without file bytes cannot become READY
+
+wrong MIME/content rejected
+
+ffprobe failure blocks media
+
+Asset Product ownership immutable
+
+Product B Asset cannot enter Product A pipeline
+
+REFERENCE_ONLY cannot render
+
+DO_NOT_USE cannot render
+
+frozen manifest changes hash when:
+asset SHA changes
+role changes
+analysis identity changes
+
+new mutable Asset does not silently enter old manifest
+
+AI_INSIGHT cannot authorize claim
+
+AI fake sourceFactId cannot authorize claim
+
+unsupported factual claim blocked
+
+unsafe claim sanitizer does not invent replacement claim
+
+scene subtitle unsupported claim blocked
+
+shipping/COD/price/guarantee rules fail closed
+
+air-fryer liner vs thermal cup creative blocked
+
+semantic approval stale after text edit
+
+semantic approval stale after ProductRevision edit
+
+BEFORE_AFTER blocked without structured proof
+
+Social Proof blocked without verified reviews
+
+Urgency blocked without verified offer
+
+fewer than six eligible concepts fails truthfully
+
+creative regeneration failure leaves old generation intact
+
+two concurrent pack mutations:
+exactly one succeeds
+
+stale async success cannot overwrite new script
+
+stale async failure cannot downgrade new state
+
+duplicate TTS request:
+one provider execution
+
+voice scriptHash mismatch blocked
+
+model/provider cache mismatch rejected
+
+missing intended WAV fails even if unrelated WAV exists
+
+50-word script + 2 aligned words:
+ALIGNMENT_INCOMPLETE
+
+fake interpolation absent
+
+alignment timestamps corrupt:
+blocked
+
+Product switch during async:
+old result cannot mutate new Product
+
+duplicate Veo generation:
+one paid operation
+
+pending Veo survives restart
+
+Veo output must pass ffprobe before READY
+
+render request cannot inject fake asset
+
+missing scene media blocks render
+
+missing voice blocks render
+
+fresh claim validation at render
+
+fresh semantic validation at render
+
+mock artifact rejected in production render
+
+FFmpeg failure cannot create COMPLETED RenderJob
+
+missing completed MP4 reconciles to failure/unavailable
+
+RenderJob restart truth
+
+QA defaults NOT_REVIEWED
+
+QA for render A cannot authorize render B
+
+production download before approval blocked
+
+preview remains clearly preview
+
+tests leave production state untouched
+
+============================================================
+CG. DEFINITION OF DONE FOR ANY PHASE
+============================================================
+
+A phase is NOT complete unless:
+
+typecheck passes
+lint passes
+build passes
+unit tests pass
+integration tests pass
+relevant adversarial tests pass
+relevant HTTP tests pass
+restart behavior tested where relevant
+concurrency behavior tested where relevant
+no real paid provider call in tests
+test state isolated
+no false READY
+no silent fallback
+no client authority leak
+
+============================================================
+CH. SOURCE CONTROL / MIGRATIONS
+============================================================
+
+Use Git from first commit.
+
+Migrations are append-only.
+
+Do not edit already-applied production migrations later.
+
+Provide:
+
+.env.example
+README.md
+docs/architecture.md
+docs/invariants.md
+docs/state-machine.md
+docs/api-contracts.md
+docs/testing.md
+docs/cloud-deployment.md
+
+No secrets committed.
+
+Do not commit:
+
+node_modules
+database runtime files
+temporary uploads
+rendered fixtures outside test fixtures
+provider credentials
+WAL/SHM runtime files
+
+============================================================
+CI. BUILD ORDER — FINAL
+============================================================
+
+V3 MUST be built in this order.
+
+Do not skip.
+
+PHASE 0
+Architecture / contracts / testing foundation
+
+PHASE 1
+Workspace + Product Truth
+
+PHASE 2
+Asset ingestion + Asset Intelligence + Frozen Manifest
+
+PHASE 3
+Product Intelligence + Verification
+
+PHASE 4
+Creative Engine + Dynamic Six + Hooks + Semantic + Claim Grounding
+
+PHASE 5
+Real TTS + Strict Alignment + MasterTimeline
+
+PHASE 6
+Scene Director + Asset Binding + Coherence
+
+PHASE 7
+AI Visual / Veo durable operation
+
+PHASE 8
+Canonical Render + Real FFmpeg + RenderJob
+
+PHASE 9
+QA + Download + Render Queue + ZIP
+
+PHASE 10
+Cloud hardening + analytics + winner iteration + production readiness
+
+Do NOT implement the whole pipeline in one giant run.
+
+============================================================
+CJ. ARCHITECTURAL FREEZE
+============================================================
+
+Once these foundation contracts are implemented:
+
+Do not redefine:
+
+Product identity
+revision semantics
+provenance semantics
+canonical hashes
+RawAssetManifest / AnalysisContext separation
+CreativePack concurrency
+async target-specific dependency identity
+render authority
+
+Future phases extend them.
+
+They do not replace them.
+
+============================================================
+CK. FIRST EXECUTION — DO THIS NOW
+============================================================
+
+AUTONOMOUS BUILD EXECUTION DIRECTIVE
+
+The entire Constitution defines the final architecture.
+
+Implementation MUST proceed in ordered phases.
+Do NOT implement the whole pipeline as one unstructured giant change.
+
+However, after a phase is green, the builder MUST continue automatically to the next phase without waiting for user confirmation.
+
+For each phase:
+
+1. read the frozen contracts
+2. implement schema/migrations
+3. implement domain/service logic
+4. implement real HTTP/worker/storage/provider paths required by that phase
+5. implement implementation tests
+6. run migrations against isolated test PostgreSQL/PGlite as defined by CI
+7. run full regression + protected external acceptance suite
+8. verify acceptance-suite pinned revision/checksum unchanged
+9. update V3_BUILD_STATE.md
+10. commit the green phase
+11. continue to the next phase
+
+STOP only for:
+
+- quota/tool exhaustion
+- missing credential when no safe offline work remains
+- contradiction in frozen normative contracts
+- protected acceptance test that appears invalid and requires operator review
+- true blocker that cannot be resolved safely from frozen contracts
+
+Do not stop merely to present a phase report.
+Do not ask whether to continue after a green phase.
+
+============================================================
+CL. PHASE 0 — REQUIRED OUTPUT
+============================================================
+
+Create the clean V3 monorepo.
+
+Establish:
+
+apps/web
+apps/api
+apps/worker
+
+packages/domain
+packages/contracts
+packages/database
+packages/providers
+packages/media
+packages/testing
+packages/config
+
+Configure:
+
+strict TypeScript
+lint
+formatting
+runtime validation
+environment configuration
+database migrations
+isolated test DB
+isolated storage
+structured errors
+structured logging
+canonical hash library
+provider interfaces/stubs
+test provider mocks
+
+Create documentation listed above.
+
+The web UI may initially be minimal.
+
+Do not build fake future workflows.
+
+============================================================
+CM. PHASE 1 — WORKSPACE + PRODUCT TRUTH
+============================================================
+
+Implement:
+
+Workspace foundation
+authenticated/server actor abstraction
+Product
+Active Product server context
+ProductRevision
+ProductFactsSnapshot
+provenance model
+claim risk types
+explicit VerifyFact action
+deterministic productValuesHash / factAuthorityHash / claimSetHash / revisionSnapshotHash
+ProductRevision concurrency + revision history
+Product HTTP API
+minimal real Product UI
+
+Product UI MUST use real API state.
+
+No SAMPLE_PRESET as authority.
+
+No local fake Product as canonical state.
+
+============================================================
+CN. PHASE 1 PRODUCT API
+============================================================
+
+Provide clean routes conceptually like:
+
+POST /api/products
+GET /api/products
+GET /api/products/:id
+POST /api/products/:id/activate
+GET /api/session/active-product
+POST /api/products/:id/revisions
+GET /api/products/:id/revisions
+GET /api/products/:id/revisions/:revisionId
+POST /api/products/:id/verify-field
+
+Exact REST naming may vary,
+but authority rules may not.
+
+============================================================
+CO. ACTIVE PRODUCT
+============================================================
+
+Server stores/resolves active Product for current actor/workspace.
+
+Client cannot send:
+
+phase
+completedPhases
+READY
+or arbitrary pipeline truth
+
+to mutate canonical session state.
+
+ActiveProduct change:
+explicit server action.
+
+============================================================
+CP. PHASE 1 REQUIRED TESTS
+============================================================
+
+Implement real deterministic tests:
+
+1.
+Server generates immutable Product ID.
+
+2.
+Two Products with same name receive different IDs.
+
+3.
+Product ID does not derive from name.
+
+4.
+Client-supplied Product ID cannot override server ID.
+
+5.
+Cross-workspace Product lookup blocked.
+
+6.
+Product creation with only a name does NOT invent:
+shipping
+COD
+quality
+features
+performance
+pricing
+discount
+claims.
+
+7.
+User-supplied initial facts are preserved exactly.
+
+8.
+Frontend/API category/description/specifications/primaryUse are not silently dropped.
+
+9.
+ProductRevision starts correctly.
+
+10.
+Revision update creates a new immutable revision.
+
+11.
+Old revision remains byte-for-byte unchanged.
+
+12.
+canonical Product hash domains deterministic.
+
+13.
+Same canonical Product values generate same productValuesHash.
+
+14.
+Changed semantic Product value changes productValuesHash; authority-only verification changes factAuthorityHash without changing productValuesHash.
+
+15.
+ProductFactsSnapshot immutable.
+
+16.
+Provenance describes exact current field value.
+
+17.
+Changing value cannot retain old exact-value provenance improperly.
+
+18.
+Client sending:
+USER_VERIFIED
+without explicit verification action
+cannot create USER_VERIFIED state.
+
+19.
+Explicit VerifyFact creates USER_VERIFIED for exact current value.
+
+20.
+Changing verified value invalidates previous verification.
+
+21.
+Removed claim remains removed.
+
+22.
+Client cannot set active Product by spoofing another workspace.
+
+23.
+Active Product survives API restart if intended by session architecture.
+
+24.
+Product/revision truth survives process restart.
+
+25.
+Tests use isolated database/storage.
+
+26.
+Real HTTP Product create
+→ activate
+→ update revision
+→ verify field
+→ reload
+passes through actual server routes.
+
+27.
+Invalid runtime API body returns deterministic validation error.
+
+28.
+No raw stack/provider payload exposed in normal HTTP error.
+
+============================================================
+CQ. TYPECHECK / BUILD
+============================================================
+
+Run:
+
+npm/pnpm test
+lint
+tsc --noEmit
+production build
+
+Use the package manager chosen by the project consistently.
+
+No "compile succeeded" substitute for tsc.
+
+============================================================
+CR. PHASE ADVANCEMENT RULE
+============================================================
+
+PHASE ADVANCEMENT RULE
+
+There is NO mandatory stop after Phase 0 or Phase 1.
+
+If Phase 0 is green:
+continue to Phase 1.
+
+If Phase 1 is green:
+continue to Phase 2.
+
+Continue phase-by-phase through the execution order while all required gates for the next phase are satisfied.
+
+A phase may not be marked green because a UI exists or because mocks pass.
+The required real domain/HTTP/worker/storage paths and protected acceptance tests for that phase must pass.
+
+When the builder stops because of quota/tool exhaustion or a true blocker:
+persist exact continuation state in V3_BUILD_STATE.md before stopping whenever tool access allows.
+
+============================================================
+CS. BUILD STATE / STOP REPORT FORMAT
+============================================================
+
+V3_BUILD_STATE.md is the canonical continuity artifact.
+
+After every green phase or meaningful milestone update at minimum:
+
+CURRENT_PHASE
+LAST_COMPLETED_PHASE
+CURRENT_TASK
+NEXT_EXACT_TASK
+COMPLETED_MIGRATIONS
+CURRENT_SCHEMA_VERSION
+TEST_COUNTS_UNIT
+TEST_COUNTS_INTEGRATION
+TEST_COUNTS_HTTP_E2E
+TEST_COUNTS_ACCEPTANCE
+ACCEPTANCE_SUITE_REVISION_OR_CHECKSUM
+LAST_GREEN_COMMIT
+FILES_CHANGED_THIS_PHASE
+OPEN_BLOCKERS
+FROZEN_DECISIONS
+PROVIDER_CONFIG_STATUS
+REQUIRED_MANUAL_ACTIONS
+
+When stopping for a true blocker/quota/tool limit, return a concise report containing:
+
+PROJECT/BRANCH
+LAST GREEN PHASE
+CURRENT PHASE/TASK
+LAST GREEN COMMIT
+TEST COUNTS / FAILURES
+ACCEPTANCE SUITE REVISION
+MIGRATIONS APPLIED
+FILES CHANGED
+BLOCKER / ERROR
+NEXT EXACT TASK
+ARCHITECTURE DEVIATIONS: NONE or exact deviation
+
+Do not re-explain the entire project.
+Do not ask what to do next when NEXT_EXACT_TASK is already deterministically known.
+
